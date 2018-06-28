@@ -1,4 +1,5 @@
 const mysql = require('mysql');
+const server = require('./src/server');
 // properties to connection
 const dbConfig = {
     host: 'localhost',
@@ -13,13 +14,18 @@ const connection = createConnection(dbConfig, (error) => {
    }
 });
 // connecting of data base
-var results = connection.query("SELECT * FROM users", (err, rows) => {
-    if (!err) {
-        console.log(rows);
-    } else {
-        console.log(err);
-    }
+const executeConn = connection.connect((err) => {
+
+   if (err) {
+       return console.log(err);
+   }
+   else {
+       var results = connection.query("SELECT * FROM users", (rows) => {
+           console.log("Users:" + " " + rows);
+       });
+   }
+
+   module.exports.results = results;
+
 });
 
-module.exports.connection = connection;
-module.exports.results = results;
